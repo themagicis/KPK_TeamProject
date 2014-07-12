@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace kravi
+namespace bullsAndCows
 {
     public class ScoreBoard
     {
-        internal Record[] board = new Record[5];
+        private const int boardLength = 5;
+        internal Record[] board = new Record[boardLength];
 
         public ScoreBoard() {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < boardLength; i++)
                 board[i] = new Record("Unknown", int.MaxValue);
         }
         public void Output()
         {
             Console.WriteLine("----Scoreboard----");
-            Console.WriteLine("1.(" + board[0].Score + ")" + board[0].Name);
-            Console.WriteLine("2.(" + board[1].Score + ")" + board[1].Name);
-            Console.WriteLine("3.(" + board[2].Score + ")" + board[2].Name);
-            Console.WriteLine("4.(" + board[3].Score + ")" + board[3].Name);
-            Console.WriteLine("5.(" + board[4].Score + ")" + board[4].Name);
+            for (int i = 0; i < boardLength; i++)
+            {
+                 Console.WriteLine(i+1 +".(" + board[i].Score + ")" + board[i].Name);
+            }
             Console.WriteLine("------------------");
         }
     }

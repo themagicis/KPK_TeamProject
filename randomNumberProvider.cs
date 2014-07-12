@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace kravi
+namespace bullsAndCows
 {
     public class randomNumberProvider
     {
