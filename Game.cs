@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
-namespace bullsAndCows
+﻿namespace bullsAndCows
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     public class Game
     {
         private string generatedNumberToWhatToGuess;
@@ -20,7 +19,7 @@ namespace bullsAndCows
         public Game(ScoreBoard bb, TopScoresDelegate doTopScores)
         {
             this.myBoard = bb;
-            this.doTopScores = doTopScores;
+            this.doTopScores = doTopScores; 
         }
 
         private List<int> Positions
@@ -55,8 +54,8 @@ namespace bullsAndCows
 
             while (true)
             {
-                string komandata = Console.ReadLine();
-                switch (komandata)
+                string command = Console.ReadLine();
+                switch (command)
                 {
                     case "exit":
                         return shouldNotContinue;
@@ -75,11 +74,11 @@ namespace bullsAndCows
                             score++;
                         }
 
-                        if (MatchCurrent(komandata))
+                        if (MatchCurrent(command))
                         {
                             this.doTopScores(this, this.myBoard);
 
-                            if (Qustion())
+                            if (Question())
                             {
                                 return shouldContinue;
                             }
@@ -93,7 +92,7 @@ namespace bullsAndCows
             } 
         }
 
-        private bool Qustion()
+        private bool Question()
         {
             Console.WriteLine("Another game ? (Y/N)");
             string s = Console.ReadLine();
@@ -111,16 +110,16 @@ namespace bullsAndCows
 
             bool[] found = new bool[generatedNumberToWhatToGuess.Length];
 
-            int b = Count2(cmd, found);
-            int c = Count1(cmd, found);
+            int bulls = CountBulls(cmd, found);
+            int cows = CountCows(cmd, found);
 
-            Console.WriteLine(b + " bull" + ((b != 1) ? "s" : "") + " and " + c + " cow" + ((c != 1) ? "s" : ""));
+            Console.WriteLine(bulls + " bull" + ((bulls != 1) ? "s" : "") + " and " + cows + " cow" + ((cows != 1) ? "s" : ""));
             return false;
         }
 
-        private int Count2(string cmd, bool[] found)
+        private int CountBulls(string cmd, bool[] found)
         {
-            int c = 0;
+            int bulls = 0;
             for (int i = 0; i < generatedNumberToWhatToGuess.Length; i++)
             {
                 for (int j = 0; j < cmd.Length; j++)
@@ -130,23 +129,24 @@ namespace bullsAndCows
                         if (i == j)
                         {
                             found[i] = true;
-                            c++;
+                            bulls++;
                         }
                     }
                 }
             }
 
-            return c;
+            return bulls;
         }
 
-        private int Count1(string cmd, bool[] found)
+        private int CountCows(string cmd, bool[] found)
         {
-            int c = 0;
+            int cows  = 0;
             for (int i = 0; i < generatedNumberToWhatToGuess.Length; i++)
             {
                 if (!found[i])
                 {
                     bool found2 = false;
+
                     for (int j = 0; j < cmd.Length; j++)
                     {
                         if (generatedNumberToWhatToGuess[i] == cmd[j])
@@ -161,11 +161,14 @@ namespace bullsAndCows
                             }
                         }
                     }
-                    if (found2) { c++; }
+                    if (found2)
+                    {
+                        cows++;
+                    }
                 }
             }
 
-            return c;
+            return cows;
         }
 
         private void ShowRand()

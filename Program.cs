@@ -28,6 +28,7 @@ namespace bullsAndCows
         static void Main()
         {
             ScoreBoard board = new ScoreBoard();
+            
             while (new Game(board, DoTopScores).Run())
             {
             }
