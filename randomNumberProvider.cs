@@ -7,7 +7,7 @@ namespace bullsAndCows
 {
     public class randomNumberProvider
     {
-        protected Random r = new Random();
+        protected Random randomGenerator = new Random();
         private static randomNumberProvider currentProvider;
         public static randomNumberProvider CurrentProvider
         {
