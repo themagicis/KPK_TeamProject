@@ -19,7 +19,7 @@
         {
             this.topScores = new ScoreBoard(5);
             this.wasGameStarted = false;
-            this.consoleRenderer = new ConsoleRenderer();
+            this.consoleRenderer = new ConsoleRenderer(800, 600);
         }
 
         public static Engine Instance
