@@ -50,7 +50,7 @@
                         digitCommand.Execute();
                     }
                     else
-                    {
+                    { 
                         textCommand.CommandValue = command;
                         textCommand.Execute();
                     }

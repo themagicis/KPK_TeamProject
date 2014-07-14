@@ -47,7 +47,7 @@
         {
             switch (this.command)
             {
-                case "help": this.engine.numberProcesser.RevealDigit();
+                case "help": this.engine.RevealDigit();
                     break;
                 case "exit": this.engine.Exit(); 
                     break;

@@ -9,63 +9,27 @@
     {
         public string secretNumber;
         private Random randomGenerator;
-
         private bool[] bulls;
         private char[] helpingNumber;
-        private ConsoleRenderer consoleRenderer;
-        private int usedCheats;
-       
 
-
-
-        public NumberProccesser(ConsoleRenderer consoleRenderer)
+        public NumberProccesser(int numberLength)
         {
-            this.consoleRenderer = consoleRenderer;
-            this.bulls = new bool[4];
-            this.helpingNumber = new char[] { 'X', 'X', 'X', 'X' };
+            this.bulls = new bool[numberLength];
+            this.helpingNumber = new char[numberLength];
+
+            for (int i = 0; i < numberLength; i++)
+            {
+                this.helpingNumber[i] = 'X';
+            }
+
             this.randomGenerator = new Random();
-            this.secretNumber = this.GenerateSecretNumber(4);
-            this.usedCheats = 0;
-          
+            this.GenerateSecretNumber(numberLength);
         }
+
         public bool CheckIsGuessed(string number)
         {
-            if (number == this.secretNumber)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Generates the secret number as string with different digits 
-        /// </summary>
-        /// <param name="numberLength">The number of the digits in the number</param>
-        /// <exception cref="ArgumentException">Thrown if the legnth of the number
-        /// is less than 1 and more than 10(max different digits)</exception>
-        public string GenerateSecretNumber(int numberLength)
-        {
-            if (numberLength < 1 || numberLength > 10)
-            {
-                throw new ArgumentException("Length of the number cannot be smaller than 1 or bigger than 10!");
-            }
-
-            List<char> secretNumberDigits = new List<char>(numberLength);
-            int insertedNumbers = 0;
-
-            while (insertedNumbers < numberLength)
-            {
-                int randomNumber = this.randomGenerator.Next(0, 9);
-
-                if (!this.CheckIfDigitIsUsed(secretNumberDigits, randomNumber))
-                {
-                    secretNumberDigits.Add(randomNumber.ToString()[0]);
-                    insertedNumbers++;
-                }
-            }
-
-            // this.secretNumber = 
-            return new string(secretNumberDigits.ToArray());
+            bool isGuessed = number == this.secretNumber;
+            return isGuessed;
         }
 
         /// <summary>
@@ -98,6 +62,7 @@
 
             return count;
         }
+
         /// <summary>
         /// Compares the secret number with guessing number and
         /// counts how many bull(matching digit and position) are found.
@@ -123,21 +88,19 @@
             return count;
         }
 
-
         /// <summary>
         /// Reveals digit from the secret number.
         /// </summary>
-        public void RevealDigit()
+        public char[] RevealDigit()
         {
             bool flag = false;
             int c = 0;
             while (!flag && c != 2 * this.secretNumber.Length)
             {
-                int digitForReveal = this.randomGenerator.Next(0, 4);
+                int digitForReveal = this.randomGenerator.Next(0, this.secretNumber.Length);
                 if (this.helpingNumber[digitForReveal] == 'X')
                 {
-                    this.helpingNumber[digitForReveal] =
-                    this.secretNumber[digitForReveal];
+                    this.helpingNumber[digitForReveal] = this.secretNumber[digitForReveal];
 
                     flag = true;
                 }
@@ -145,8 +108,7 @@
                 c++;
             }
 
-            this.usedCheats++;
-            consoleRenderer.PrintHelpingNumber(this.helpingNumber);
+            return helpingNumber;
         }
 
         /// <summary>
@@ -169,6 +131,36 @@
             }
 
             return isDigitUsed;
+        }
+
+        /// <summary>
+        /// Generates the secret number as string with different digits 
+        /// </summary>
+        /// <param name="numberLength">The number of the digits in the number</param>
+        /// <exception cref="ArgumentException">Thrown if the legnth of the number
+        /// is less than 1 and more than 10(max different digits)</exception>
+        private void GenerateSecretNumber(int numberLength)
+        {
+            if (numberLength < 1 || numberLength > 10)
+            {
+                throw new ArgumentException("Length of the number cannot be smaller than 1 or bigger than 10!");
+            }
+
+            List<char> secretNumberDigits = new List<char>(numberLength);
+            int insertedNumbers = 0;
+
+            while (insertedNumbers < numberLength)
+            {
+                int randomNumber = this.randomGenerator.Next(0, 9);
+
+                if (!this.CheckIfDigitIsUsed(secretNumberDigits, randomNumber))
+                {
+                    secretNumberDigits.Add(randomNumber.ToString()[0]);
+                    insertedNumbers++;
+                }
+            }
+
+            this.secretNumber = new string(secretNumberDigits.ToArray());
         }
     }
 }
