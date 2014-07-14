@@ -19,7 +19,7 @@
         /// </summary>
         public static void Main()
         {
-            var engine = Engine.Instance;
+            var engine = Engine.GetInstance(GameMode);
             Play(engine);
         }
 

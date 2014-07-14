@@ -6,7 +6,9 @@
 
     public class Engine
     {
-        private static readonly Engine engine = new Engine();
+        public const int DEFAULT_NUMBER_LENGTH = 4;
+
+        private static Engine engine = null; //new Engine();
 
         private ScoreBoard topScores;
         private bool wasGameStarted;
@@ -14,17 +16,36 @@
         public NumberProccesser numberProcesser;
         private int madeGuesses;
         private int usedCheats;
+        private int numberLength;
+        private NumberGenerator numberGenerator;
 
-        private Engine()
+        private Engine(NumberGenerator numberGenerator, int numberLength = DEFAULT_NUMBER_LENGTH)
         {
             this.topScores = new ScoreBoard(5);
             this.wasGameStarted = false;
             this.consoleRenderer = new ConsoleRenderer(800, 600);
+            this.numberLength = numberLength;
+            this.numberGenerator = numberGenerator;
         }
 
-        public static Engine Instance
+        public static Engine GetInstance(NumberGenerator numberGenerator, int numberLength = DEFAULT_NUMBER_LENGTH)
         {
-            get { return engine; }
+            if (engine == null) 
+            {
+                engine = new Engine(numberGenerator, numberLength);
+            }
+
+            return engine;
+        }
+
+        public static Engine GetInstance(int numberLength)
+        {
+            return GetInstance(new RandomNumberGenerator(), numberLength);
+        }
+
+        public static Engine GetInstance()
+        {
+            return GetInstance(new RandomNumberGenerator(), DEFAULT_NUMBER_LENGTH);
         }
 
         /// <summary>
@@ -103,7 +124,7 @@
 
         private void Initialize()
         {
-            this.numberProcesser = new NumberProccesser(4);
+            this.numberProcesser = new NumberProccesser(numberLength, numberGenerator);
             this.madeGuesses = 0;
             this.usedCheats = 0;
         }

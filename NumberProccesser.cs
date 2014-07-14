@@ -8,11 +8,11 @@
     public class NumberProccesser
     {
         public string secretNumber;
-        private Random randomGenerator;
+        private NumberGenerator numberGenerator;
         private bool[] bulls;
         private char[] helpingNumber;
 
-        public NumberProccesser(int numberLength)
+        public NumberProccesser(int numberLength, NumberGenerator numberGenerator)
         {
             this.bulls = new bool[numberLength];
             this.helpingNumber = new char[numberLength];
@@ -22,7 +22,8 @@
                 this.helpingNumber[i] = 'X';
             }
 
-            this.randomGenerator = new Random();
+            //this.randomGenerator = new Random();
+            this.numberGenerator = numberGenerator;
             this.GenerateSecretNumber(numberLength);
         }
 
@@ -97,7 +98,8 @@
             int c = 0;
             while (!flag && c != 2 * this.secretNumber.Length)
             {
-                int digitForReveal = this.randomGenerator.Next(0, this.secretNumber.Length);
+                Random random = new Random();
+                int digitForReveal = random.Next(0, this.secretNumber.Length);
                 if (this.helpingNumber[digitForReveal] == 'X')
                 {
                     this.helpingNumber[digitForReveal] = this.secretNumber[digitForReveal];
@@ -112,55 +114,12 @@
         }
 
         /// <summary>
-        /// Checks if a digit is met in given list of chars
-        /// </summary>
-        /// <param name="numberDigits">Digits of a number as a list of chars</param>
-        /// <param name="number">Seeken number</param>
-        /// <returns></returns>
-        private bool CheckIfDigitIsUsed(List<char> numberDigits, int number)
-        {
-            var isDigitUsed = false;
-
-            for (int i = 0; i < numberDigits.Count; i++)
-            {
-                if (numberDigits[i] == number.ToString()[0])
-                {
-                    isDigitUsed = true;
-                    break;
-                }
-            }
-
-            return isDigitUsed;
-        }
-
-        /// <summary>
         /// Generates the secret number as string with different digits 
         /// </summary>
         /// <param name="numberLength">The number of the digits in the number</param>
-        /// <exception cref="ArgumentException">Thrown if the legnth of the number
-        /// is less than 1 and more than 10(max different digits)</exception>
         private void GenerateSecretNumber(int numberLength)
         {
-            if (numberLength < 1 || numberLength > 10)
-            {
-                throw new ArgumentException("Length of the number cannot be smaller than 1 or bigger than 10!");
-            }
-
-            List<char> secretNumberDigits = new List<char>(numberLength);
-            int insertedNumbers = 0;
-
-            while (insertedNumbers < numberLength)
-            {
-                int randomNumber = this.randomGenerator.Next(0, 9);
-
-                if (!this.CheckIfDigitIsUsed(secretNumberDigits, randomNumber))
-                {
-                    secretNumberDigits.Add(randomNumber.ToString()[0]);
-                    insertedNumbers++;
-                }
-            }
-
-            this.secretNumber = new string(secretNumberDigits.ToArray());
+            this.secretNumber = numberGenerator.GenerateNumber(numberLength); 
         }
     }
 }
