@@ -6,8 +6,7 @@
     {
         private string numberCommand;
         private int numberLength;
-        
-        public DigitCommand(Engine engine, int numberLength) : base(engine)
+        public DigitCommand(Engine engine,int numberLength) : base(engine)
         {
             this.NumberLength = numberLength;
         }
@@ -53,7 +52,7 @@
 
         public override void Execute()
         {
-            this.engine.ProcessNumber(this.numberCommand);
+           engine.ProcessNumber(this.numberCommand);
         }
     }
 }
