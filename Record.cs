@@ -1,36 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace bullsAndCows
+﻿namespace BullsAndCowsCommandPattern
 {
+    using System;
+    using System.Text;
+
     public class Record : IComparable<Record>
     {
-        string name;
-        int score;         
+        private string name;
+        private int score; 
+        
         public Record(string name, int score)
         {
-            this.name = name;
+            if (name == null || name == String.Empty)
+            {
+                this.name = "unknown";
+            }
+            else
+            {
+                this.name = name;
+            }
+            
             this.score = score;
         }
+
         public string Name
         {
-            get
-            {
-                return name;
-            }
+            get { return this.name; }
         }
+
         public int Score
         {
-            get
-            {
-                return score;
-            }
+            get { return this.score; }
         }
+
         public int CompareTo(Record other)
         {
-            return score.CompareTo(other.score);
+            return this.score.CompareTo(other.score);
+        }
+
+         // TO DO
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+
+            result.AppendFormat("{0} : {1} pts", this.name, this.score);
+
+            return result.ToString().PadLeft(20 - result.Length);
         }
     }
 }
