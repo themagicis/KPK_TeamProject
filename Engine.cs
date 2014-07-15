@@ -23,7 +23,7 @@
         {
             this.topScores = new ScoreBoard(5);
             this.wasGameStarted = false;
-            this.consoleRenderer = new ConsoleRenderer(70, 50);
+            this.consoleRenderer = new ConsoleRenderer(80, 50);
             this.numberLength = numberLength;
             this.numberGenerator = numberGenerator;
         }
