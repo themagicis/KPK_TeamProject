@@ -43,6 +43,7 @@
                 {
                     Console.Write("Enter your guess or command: ");
                     command = Console.ReadLine();
+                    Console.WriteLine();
 
                     if (long.TryParse(command, out digit))
                     {
@@ -57,13 +58,11 @@
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
-                    Console.WriteLine(ex.ParamName);
-                    Console.WriteLine();
+                    ConsoleRenderer.PrintErrorMessage(ex.ParamName);
                 }
                 catch (InvalidCommandException ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine();
+                    ConsoleRenderer.PrintErrorMessage(ex.Message);
                 }
             }
         }

@@ -33,7 +33,7 @@
                     case "help":
                     case "exit":
                     case "restart":
-                    case "top": this.command = value; 
+                    case "top": this.command = value.ToLower(); 
                         break;
                     default: throw new InvalidCommandException("Invalid text command!");
                 }
