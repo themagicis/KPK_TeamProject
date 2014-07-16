@@ -41,7 +41,6 @@
             {
                 try
                 {
-                    Console.Write("Enter your guess or command: ");
                     command = Console.ReadLine();
                     Console.WriteLine();
 
@@ -58,11 +57,11 @@
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
-                    ConsoleRenderer.PrintErrorMessage(ex.ParamName);
+                    engine.ProcessError(ex.ParamName);
                 }
                 catch (InvalidCommandException ex)
                 {
-                    ConsoleRenderer.PrintErrorMessage(ex.Message);
+                    engine.ProcessError(ex.Message);
                 }
             }
         }

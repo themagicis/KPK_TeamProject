@@ -54,6 +54,7 @@
     <Compile Include="RandomNumberGenerator.cs" />
     <Compile Include="Record.cs" />
     <Compile Include="ScoreBoard.cs" />
+    <Compile Include="TextAnimator.cs" />
     <Compile Include="TextCommand.cs" />
   </ItemGroup>
   <ItemGroup>

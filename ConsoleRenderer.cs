@@ -12,22 +12,21 @@
         private const ConsoleColor ComputerMessageColor = ConsoleColor.DarkCyan;
         private const ConsoleColor ErrorMessageColor = ConsoleColor.Red;
 
+        private TextAnimator animator;
+        private int currentRow;
+
         public ConsoleRenderer(int fieldWidth, int fieldHeight)
         {
             Console.SetWindowSize(fieldWidth, fieldHeight);
             Console.Title = "Bulls and Cows";
+            this.currentRow = 0;
         }
 
-        public static void PrintErrorMessage(string message)
+        public void PrintErrorMessage(string message)
         {
             Console.ForegroundColor = ConsoleRenderer.ErrorMessageColor;
-            int startY = Console.CursorTop;
-            int startX = Console.WindowWidth - message.Length - 10;
-
-            Console.SetCursorPosition(startX, startY);
-            Console.WriteLine(message);
-            Console.WriteLine();
-            Console.ResetColor();
+            this.PrintComputerMessage(message);
+            this.DefaultMessage();
         }
 
         public void PrintGameStartMessage()
@@ -44,15 +43,14 @@
 
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
 
-            int startY = Console.CursorTop + 3;
+            this.currentRow += 2;
             int startX = Console.WindowWidth / 2 - startMessageParts[0].Length / 2;
-            PrintStringArrayToPosition(startMessageParts, startX, startY);
+            PrintStringArrayToPosition(startMessageParts);
 
-            Console.WriteLine();
+            this.currentRow += 2;
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
             this.PrintComputerMessage("Please try to guess my secret 4-digit number.");
-            Console.WriteLine();
-            Console.ResetColor();
+            this.DefaultMessage();
         }
 
         public void PrintTopScores(ScoreBoard board)
@@ -67,15 +65,16 @@
         public void PrintCongratulationMessage(int usedCheats, int madeGuesses)
         {
             Console.ForegroundColor = ConsoleRenderer.CongratMessageColor;
-            Console.WriteLine();
-            Console.Write("CONGRATULATIONS! You guessed" + " the secret number in {0} attempts.", madeGuesses);
+            string[] message = new string[] 
+            { 
+                "CONGRATULATIONS!",
+                String.Format("You guessed" + " the secret number in {0} attempts.", madeGuesses)
+            };
+            this.PrintStringArrayToPosition(message);
             if (usedCheats > 0)
             {
                 Console.Write(" But you used {0} cheats!", usedCheats);
             }
-
-            Console.WriteLine();
-            Console.ResetColor();
         }
 
         public void PrintHelpingNumber(char[] helpingNumber)
@@ -83,8 +82,7 @@
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
             string message = "The number looks like " + new string(helpingNumber) + '.';
             this.PrintComputerMessage(message);
-            Console.WriteLine();
-            Console.ResetColor();
+            this.DefaultMessage();
         }
 
         public void PrintBullsAndCows(int bullsCount, int cowsCount)
@@ -92,8 +90,7 @@
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
             this.PrintComputerMessage(String.Format("Wrong number! Bulls: {0}, Cows: {1}!", 
                 bullsCount, cowsCount));
-            Console.WriteLine();
-            Console.ResetColor();
+            this.DefaultMessage();
         }
 
         private void PrintLogo()
@@ -106,30 +103,35 @@
                 "#   # #   # #     #         #       #     #   # # # # #     #",
                 "####   ###  ##### ##### ####   AND   ####  ###   #   #  ####"
             };
-            int startX = Console.WindowWidth / 2 - logoParts[0].Length/2;
-            int startY = 2;
 
             Console.ForegroundColor = ConsoleRenderer.LogoMessageColor;
-            PrintStringArrayToPosition(logoParts, startX, startY);
+            PrintStringArrayToPosition(logoParts);
         }
 
-        private void PrintStringArrayToPosition(string[] lines, int x, int y)
+        private void PrintStringArrayToPosition(string[] lines)
         {
-            int currY = y;
-
-            for (int i = 0; i < lines.Length; i++, currY++)
+            for (int i = 0; i < lines.Length; i++, this.currentRow++)
             {
-                Console.SetCursorPosition(x, currY);
+                int x = Console.WindowWidth / 2 - lines[0].Length / 2;
+                Console.SetCursorPosition(x, this.currentRow);
                 Console.WriteLine(lines[i]);
             }
         }
 
         private void PrintComputerMessage(string message)
         {
-            int startY = Console.CursorTop;
             int startX = Console.WindowWidth - message.Length - 10;
-            Console.SetCursorPosition(startX, startY);
-            Console.WriteLine(message);
+            this.animator = new TextAnimator(startX, this.currentRow, message);
+            this.animator.Type(50, true);
+            this.currentRow += 2;
+        }
+
+        private void DefaultMessage()
+        {
+            Console.SetCursorPosition(10, this.currentRow);
+            Console.ResetColor();
+            Console.Write("Enter your guess or command: ");
+            this.currentRow += 2;
         }
     }
 }

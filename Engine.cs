@@ -105,6 +105,11 @@
             this.consoleRenderer.PrintTopScores(this.topScores);
         }
 
+        public void ProcessError(string message)
+        {
+            this.consoleRenderer.PrintErrorMessage(message);
+        }
+
         /// <summary>
         /// Exit from the program
         /// </summary>
