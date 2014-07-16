@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Text;
 
     public class Engine
@@ -22,6 +23,17 @@
         private Engine(NumberGenerator numberGenerator, int numberLength = DEFAULT_NUMBER_LENGTH)
         {
             this.topScores = new ScoreBoard(5);
+            try
+            {
+                ScoreBoardMemento memento = new ScoreBoardMemento();
+                memento.Deserialize(File.ReadAllText(@"scores.txt"));
+                topScores.SetMemento(memento);
+            }
+            catch (FileNotFoundException)
+            {
+                File.WriteAllText(@"scores.txt", string.Empty);
+            }
+
             this.consoleRenderer = new ConsoleRenderer(80, 50);
             this.numberLength = numberLength;
             this.numberGenerator = numberGenerator;
@@ -54,6 +66,7 @@
         public void Start()
         {
             this.Initialize();
+            Console.Clear();
             consoleRenderer.PrintGameStartMessage();
         }
 
@@ -116,6 +129,11 @@
         {
             consoleRenderer.PrintCongratulationMessage(usedCheats, madeGuesses);
             this.topScores.AddScore(this.madeGuesses, this.usedCheats);
+
+            ScoreBoardMemento memento = topScores.CreateMemento();
+            File.WriteAllText(@"scores.txt", memento.Serialize());
+
+            this.Start(); 
 
             // TO DO: Logic after game end(to continue or exit). Can be done in the engine
         }

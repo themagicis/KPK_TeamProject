@@ -77,10 +77,21 @@
             foreach (var record in this.board)
             {
                 result.AppendLine(place + ". " + record.ToString());
+                place++;
             }
 
             result.AppendLine("------------------");
             return result.ToString();
+        }
+
+        public ScoreBoardMemento CreateMemento()
+        {
+            return new ScoreBoardMemento(this.board.ToArray());
+        }
+
+        public void SetMemento(ScoreBoardMemento memento)
+        {
+            this.board = new List<Record>(memento.Records);
         }
 
         private bool CheckIfInTop(int madeGuesses)
