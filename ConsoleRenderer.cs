@@ -42,10 +42,8 @@
             };
 
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
-
             this.currentRow += 2;
-            int startX = Console.WindowWidth / 2 - startMessageParts[0].Length / 2;
-            PrintStringArrayToPosition(startMessageParts);
+            PrintLines(startMessageParts);
 
             this.currentRow += 2;
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
@@ -56,10 +54,10 @@
         public void PrintTopScores(ScoreBoard board)
         {
             Console.ForegroundColor = ConsoleRenderer.TopScoresColor;
-            Console.WriteLine();
-            Console.WriteLine(board.ToString());
-            Console.WriteLine();
-            Console.ResetColor();
+            string scores = board.ToString();
+            var scoreString = scores.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            this.PrintLines(scoreString);
+            this.DefaultMessage();
         }
 
         public void PrintCongratulationMessage(int usedCheats, int madeGuesses)
@@ -70,10 +68,11 @@
                 "CONGRATULATIONS!",
                 String.Format("You guessed" + " the secret number in {0} attempts.", madeGuesses)
             };
-            this.PrintStringArrayToPosition(message);
+            this.PrintLines(message);
+
             if (usedCheats > 0)
             {
-                Console.Write(" But you used {0} cheats!", usedCheats);
+                this.PrintLines(String.Format(" But you used {0} cheats!", usedCheats));
             }
         }
 
@@ -93,6 +92,16 @@
             this.DefaultMessage();
         }
 
+        public void PrintLines(params string[] lines)
+        {
+            for (int i = 0; i < lines.Length; i++, this.currentRow++)
+            {
+                int x = Console.WindowWidth / 2 - lines[i].Length / 2;
+                Console.SetCursorPosition(x, this.currentRow);
+                Console.WriteLine(lines[i]);
+            }
+        }
+
         private void PrintLogo()
         {
             string[] logoParts = new string[]
@@ -105,17 +114,7 @@
             };
 
             Console.ForegroundColor = ConsoleRenderer.LogoMessageColor;
-            PrintStringArrayToPosition(logoParts);
-        }
-
-        private void PrintStringArrayToPosition(string[] lines)
-        {
-            for (int i = 0; i < lines.Length; i++, this.currentRow++)
-            {
-                int x = Console.WindowWidth / 2 - lines[0].Length / 2;
-                Console.SetCursorPosition(x, this.currentRow);
-                Console.WriteLine(lines[i]);
-            }
+            this.PrintLines(logoParts);
         }
 
         private void PrintComputerMessage(string message)

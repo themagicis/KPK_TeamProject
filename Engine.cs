@@ -22,7 +22,6 @@
         private Engine(NumberGenerator numberGenerator, int numberLength = DEFAULT_NUMBER_LENGTH)
         {
             this.topScores = new ScoreBoard(5);
-            this.wasGameStarted = false;
             this.consoleRenderer = new ConsoleRenderer(80, 50);
             this.numberLength = numberLength;
             this.numberGenerator = numberGenerator;
@@ -54,20 +53,14 @@
         /// </summary>
         public void Start()
         {
-            if (!this.wasGameStarted)
-            {
-                this.wasGameStarted = true;
-                consoleRenderer.PrintGameStartMessage();
-            }
-
             this.Initialize();
+            consoleRenderer.PrintGameStartMessage();
         }
 
         public void Restart()
         {
+            Console.Clear();
             this.Start();
-            Console.WriteLine("Game Restarted!");
-            Console.WriteLine();
         }
 
         /// <summary>
@@ -130,6 +123,7 @@
         private void Initialize()
         {
             this.numberProcesser = new NumberProccesser(numberLength, numberGenerator);
+            this.consoleRenderer = new ConsoleRenderer(80, 50);
             this.madeGuesses = 0;
             this.usedCheats = 0;
         }
