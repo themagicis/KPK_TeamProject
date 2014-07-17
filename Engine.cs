@@ -8,11 +8,12 @@
     public class Engine
     {
         public const int DEFAULT_NUMBER_LENGTH = 4;
+        private const int MaxResult = 10000;
+        private const int CheatPenalty = 2000;
 
         private static Engine engine = null; //new Engine();
 
         private ScoreBoard topScores;
-        private bool wasGameStarted;
         private ConsoleRenderer consoleRenderer;
         public NumberProccesser numberProcesser;
         private int madeGuesses;
@@ -128,14 +129,38 @@
         private void EndGame()
         {
             consoleRenderer.PrintCongratulationMessage(usedCheats, madeGuesses);
-            this.topScores.AddScore(this.madeGuesses, this.usedCheats);
-
-            ScoreBoardMemento memento = topScores.CreateMemento();
-            File.WriteAllText(@"scores.txt", memento.Serialize());
-
+            this.SaveScore();
             this.Start(); 
 
             // TO DO: Logic after game end(to continue or exit). Can be done in the engine
+        }
+
+        private void SaveScore()
+        {
+            int score = MaxResult / this.madeGuesses - (this.usedCheats * CheatPenalty);
+            string name = String.Empty;
+
+
+            // Printing to be moved to renderer.
+            this.consoleRenderer.PrintLines("You can add your nickname to top scores!");
+            Console.WriteLine();
+
+            while (name.Length <= 3)
+            {
+                this.consoleRenderer.PrintLines("Enter your nickname: ");
+                name = Console.ReadLine();
+
+                if (name == null || name.Length < 3)
+                {
+                    this.consoleRenderer.PrintErrorMessage("Please enter at least 3 letters!");
+                    continue;
+                }
+            }
+
+            this.topScores.AddScore(score, name);
+
+            ScoreBoardMemento memento = topScores.CreateMemento();
+            File.WriteAllText(@"scores.txt", memento.Serialize());
         }
 
         private void Initialize()

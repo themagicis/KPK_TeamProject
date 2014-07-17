@@ -1,13 +1,12 @@
 ﻿namespace BullsAndCowsCommandPattern
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Text;
 
     public class ScoreBoard
     {
-        private const int MaxResult = 10000;
-        private const int CheatPenalty = 2000;
         private int boardLength = 5;
         private List<Record> board;
 
@@ -35,53 +34,20 @@
             }
         }
 
-        public void AddScore(int guesses, int cheatsUsed)
+        public void AddScore(int score, string name)
         {
-            bool isInTop = this.CheckIfInTop(guesses);
+            this.board = this.board.OrderByDescending(x => x.Score).ToList();
+            bool isInTop = this.CheckIfInTop(score);
 
-            // TO DO adding logic
             if (isInTop)
             {
-                Console.WriteLine("You can add your nickname to top scores!");
-                string playerNick = String.Empty;
-
-                while (playerNick.Length <= 3)
-                {
-                    Console.Write("Enter your nickname: ");
-                    playerNick = Console.ReadLine();
-
-                    if (playerNick == null || playerNick.Length < 3)
-                    {
-                        Console.WriteLine("Please enter at least 3 letters!");
-                        continue;
-                    }
-
-                    int score = MaxResult / guesses - (cheatsUsed * CheatPenalty);
-                    Record newRecord = new Record(playerNick, score);
-                    this.board.Add(newRecord);
-                }
+                Record newRecord = new Record(name, score);
+                this.board.Add(newRecord);
             }
-            else
-            {
-                Console.WriteLine("Sorry! You didn't make it to top {0}.", this.boardLength);
-            }
-        }
-
-        public override string ToString()
-        {
-            var result = new StringBuilder();
-            int place = 1;
-            result.AppendLine("----Scoreboard----");
-            this.board.Sort();
-
-            foreach (var record in this.board)
-            {
-                result.AppendLine(place + ". " + record.ToString());
-                place++;
-            }
-
-            result.AppendLine("------------------");
-            return result.ToString();
+            //else
+            //{
+            //    Console.WriteLine("Sorry! You didn't make it to top {0}.", this.boardLength);
+            //}
         }
 
         public ScoreBoardMemento CreateMemento()
@@ -91,15 +57,37 @@
 
         public void SetMemento(ScoreBoardMemento memento)
         {
-            this.board = new List<Record>(memento.Records);
+            List<Record> records = new List<Record>(memento.Records);
+            this.board = records.OrderByDescending(x => x.Score).ToList();
         }
 
-        private bool CheckIfInTop(int madeGuesses)
+        public bool CheckIfInTop(int score)
         {
-            var isInTop = this.board.Count < this.boardLength || 
-                this.board[this.boardLength - 1].Score > madeGuesses;
+            var isInTop = this.board.Count < this.boardLength ||
+                this.board[this.boardLength - 1].Score < score;
             
             return isInTop;
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            result.AppendLine("---------Scoreboard---------");
+
+            int scoresCount = this.board.Count;
+            if (scoresCount > this.boardLength)
+            {
+                scoresCount = this.boardLength;
+            }
+
+            for (int i = 0; i < scoresCount; i++)
+            {
+                string line = i + 1 + " " + this.board[i].ToString();
+                result.AppendLine(line);
+            }
+
+            result.AppendLine("----------------------------");
+            return result.ToString();
         }
     }
 }

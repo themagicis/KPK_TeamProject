@@ -92,6 +92,11 @@
             this.DefaultMessage();
         }
 
+        public void PrintSavingScore()
+        {
+            // TO DO
+        }
+
         public void PrintLines(params string[] lines)
         {
             for (int i = 0; i < lines.Length; i++, this.currentRow++)
