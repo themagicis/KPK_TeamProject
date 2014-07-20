@@ -7,8 +7,11 @@
 
     public class ScoreBoard
     {
-        private int boardLength = 5;
+        private int maxBoardLength = 5;
         private List<Record> board;
+
+        private int longestName;
+        private int longestScore;
 
         public ScoreBoard(int boardLength) 
         {
@@ -19,8 +22,8 @@
         public int BoardLength
         {
             get 
-            { 
-                return this.boardLength; 
+            {
+                return this.maxBoardLength; 
             }
 
             private set
@@ -30,12 +33,16 @@
                     throw new ArgumentException("ScoreBoard length must be positive!");
                 }
 
-                this.boardLength = value;
+                this.maxBoardLength = value;
             }
         }
 
         public void AddScore(int score, string name)
         {
+            if(name.Length > 25){
+                throw new ArgumentException("Name too long! Max 25 symbols!");
+            }
+
             this.board = this.board.OrderByDescending(x => x.Score).ToList();
             bool isInTop = this.CheckIfInTop(score);
 
@@ -43,6 +50,8 @@
             {
                 Record newRecord = new Record(name, score);
                 this.board.Add(newRecord);
+
+                CheckForNameAndScoreLength(name, score.ToString());
             }
             //else
             //{
@@ -59,12 +68,17 @@
         {
             List<Record> records = new List<Record>(memento.Records);
             this.board = records.OrderByDescending(x => x.Score).ToList();
+
+            foreach (var record in board)
+            {
+                CheckForNameAndScoreLength(record.Name, record.Score.ToString());
+            }
         }
 
         public bool CheckIfInTop(int score)
         {
-            var isInTop = this.board.Count < this.boardLength ||
-                this.board[this.boardLength - 1].Score < score;
+            var isInTop = this.board.Count < this.maxBoardLength ||
+                this.board[this.maxBoardLength - 1].Score < score;
             
             return isInTop;
         }
@@ -72,22 +86,63 @@
         public override string ToString()
         {
             var result = new StringBuilder();
-            result.AppendLine("---------Scoreboard---------");
+            string scoreBoardTitle = "Scoreboard";
 
-            int scoresCount = this.board.Count;
-            if (scoresCount > this.boardLength)
+            // This is the space required to divide the words
+            int aditionalSpace = 7;
+            int longestLineLength = this.longestName + this.longestScore + aditionalSpace;
+            int sideSymbolsLength = (longestLineLength - scoreBoardTitle.Length) / 2;
+
+            result.Append(new string('-', sideSymbolsLength));
+            result.Append(scoreBoardTitle);
+            result.Append(new string('-', sideSymbolsLength));
+            result.AppendLine();
+
+            for (int i = 0; i < this.board.Count; i++)
             {
-                scoresCount = this.boardLength;
+                Record currRec = this.board[i];
+                result.AppendLine(GenerateRecordLine(i + 1, currRec.Name, currRec.Score));
             }
 
-            for (int i = 0; i < scoresCount; i++)
-            {
-                string line = i + 1 + " " + this.board[i].ToString();
-                result.AppendLine(line);
-            }
-
-            result.AppendLine("----------------------------");
+            result.AppendLine(new string('-', longestLineLength));
             return result.ToString();
+        }
+
+        private string GenerateRecordLine(int place, string name, int score)
+        {
+            var sb = new StringBuilder();
+            sb.Append(place.ToString()).Append(". ").Append(name);
+
+            string currName = name;
+            string currScore = score.ToString();
+
+            if (currName.Length <  this.longestName)
+            {
+                sb.Append(new string(' ', this.longestName - currName.Length));
+            }
+
+            sb.Append(" : ");
+
+            if (currScore.Length < this.longestScore)
+	        {
+                sb.Append(new string(' ', this.longestScore - currScore.Length));
+	        }
+
+            sb.Append(currScore);
+            return sb.ToString();
+        }
+
+        private void CheckForNameAndScoreLength(string name, string score)
+        {
+            if (name.Length > this.longestName)
+            {
+                this.longestName = name.Length;
+            }
+
+            if (score.ToString().Length > this.longestScore)
+            {
+                this.longestScore = score.ToString().Length;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@
 
             result.AppendFormat("{0} : {1} pts", this.name, this.score);
 
-            return result.ToString().PadLeft(20 - result.Length);
+            return result.ToString();
         }
     }
 }
