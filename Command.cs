@@ -13,6 +13,10 @@
         /// </summary>
         protected Engine engine;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Command"/> class.
+        /// </summary>
+        /// <param name="engine">Engine that would be executed</param>
         public Command(Engine engine)
         {
             this.engine = engine;

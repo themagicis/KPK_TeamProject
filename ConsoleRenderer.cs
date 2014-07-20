@@ -9,10 +9,29 @@
     /// </summary>
     public class ConsoleRenderer
     {
+        /// <summary>
+        /// The color of the letters for the game logo
+        /// </summary>
         private const ConsoleColor LogoMessageColor = ConsoleColor.DarkYellow;
+
+        /// <summary>
+        /// The color for the congratulation message
+        /// </summary>
         private const ConsoleColor CongratMessageColor = ConsoleColor.Green;
+
+        /// <summary>
+        /// The color for the top scores list
+        /// </summary>
         private const ConsoleColor TopScoresColor = ConsoleColor.DarkMagenta;
+
+        /// <summary>
+        /// The color for the basic computer message
+        /// </summary>
         private const ConsoleColor ComputerMessageColor = ConsoleColor.DarkCyan;
+
+        /// <summary>
+        /// The color for the error message
+        /// </summary>
         private const ConsoleColor ErrorMessageColor = ConsoleColor.Red;
 
         /// <summary>
@@ -26,7 +45,8 @@
         private int currentRow;
 
         /// <summary>
-        /// Initialize a Console renderer object. Sets the Console size and title.
+        /// Initializes a new instance of the <see cref="ConsoleRenderer"/> class.
+        /// Sets the Console size and title.
         /// </summary>
         /// <param name="fieldWidth">Console width in symbols</param>
         /// <param name="fieldHeight">Console height in symbols</param>
@@ -135,6 +155,9 @@
             this.DefaultMessage();
         }
 
+        /// <summary>
+        /// Prints an instructions for saving players score and name
+        /// </summary>
         public void PrintSavingScore()
         {
             // TO DO

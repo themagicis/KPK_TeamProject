@@ -126,13 +126,14 @@
             Environment.Exit(1);
         }
 
+
         private void EndGame()
         {
             consoleRenderer.PrintCongratulationMessage(usedCheats, madeGuesses);
             this.SaveScore();
             this.Start(); 
 
-            // TO DO: Logic after game end(to continue or exit). Can be done in the engine
+            // TO DO: Logic after game end(to continue or exit).
         }
 
         private void SaveScore()
