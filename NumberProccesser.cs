@@ -8,6 +8,7 @@
         private NumberGenerator numberGenerator;
         private bool[] bulls;
         private char[] helpingNumber;
+        private int revealedDigits;
 
         public NumberProccesser(int numberLength, NumberGenerator numberGenerator)
         {
@@ -21,6 +22,7 @@
 
             //this.randomGenerator = new Random();
             this.numberGenerator = numberGenerator;
+            this.revealedDigits = 0;
             this.GenerateSecretNumber(numberLength);
         }
 
@@ -92,21 +94,26 @@
         public char[] RevealDigit()
         {
             bool flag = false;
-            int c = 0;
-            while (!flag && c != 2 * this.secretNumber.Length)
+
+            if (this.revealedDigits >= this.secretNumber.Length)
             {
-                Random random = new Random();
-                int digitForReveal = random.Next(0, this.secretNumber.Length);
-                if (this.helpingNumber[digitForReveal] == 'X')
-                {
-                    this.helpingNumber[digitForReveal] = this.secretNumber[digitForReveal];
-
-                    flag = true;
-                }
-
-                c++;
+                return helpingNumber;
             }
-
+            else
+            {
+                while (!flag)
+                {
+                    Random random = new Random();
+                    int digitForReveal = random.Next(0, this.secretNumber.Length);
+                    if (this.helpingNumber[digitForReveal] == 'X')
+                    {
+                        this.helpingNumber[digitForReveal] = this.secretNumber[digitForReveal];
+                        this.revealedDigits++;
+                        flag = true;
+                    }
+                }
+            }
+            
             return helpingNumber;
         }
 

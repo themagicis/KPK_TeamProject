@@ -19,7 +19,7 @@
 
             while (insertedNumbers < numberLength)
             {
-                int randomNumber = this.randomGenerator.Next(1, 9);
+                int randomNumber = this.randomGenerator.Next(0, 10);
 
                 if (!this.CheckIfDigitIsUsed(secretNumberDigits, randomNumber))
                 {
