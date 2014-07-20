@@ -1,9 +1,12 @@
 ﻿namespace BullsAndCowsCommandPattern
 {
     using System;
-    using System.Text;
     using System.Linq;
+    using System.Text;
 
+    /// <summary>
+    /// Object that visualize data from the game engine.
+    /// </summary>
     public class ConsoleRenderer
     {
         private const ConsoleColor LogoMessageColor = ConsoleColor.DarkYellow;
@@ -12,9 +15,21 @@
         private const ConsoleColor ComputerMessageColor = ConsoleColor.DarkCyan;
         private const ConsoleColor ErrorMessageColor = ConsoleColor.Red;
 
+        /// <summary>
+        /// Animates the printing on the console.
+        /// </summary>
         private TextAnimator animator;
+
+        /// <summary>
+        /// Saves the current row from which to begin next printing on the console
+        /// </summary>
         private int currentRow;
 
+        /// <summary>
+        /// Initialize a Console renderer object. Sets the Console size and title.
+        /// </summary>
+        /// <param name="fieldWidth">Console width in symbols</param>
+        /// <param name="fieldHeight">Console height in symbols</param>
         public ConsoleRenderer(int fieldWidth, int fieldHeight)
         {
             Console.SetWindowSize(fieldWidth, fieldHeight);
@@ -22,6 +37,10 @@
             this.currentRow = 0;
         }
 
+        /// <summary>
+        /// Prints an error message in red color as a computer message(animated). 
+        /// </summary>
+        /// <param name="message">The error message to be printed.</param>
         public void PrintErrorMessage(string message)
         {
             Console.ForegroundColor = ConsoleRenderer.ErrorMessageColor;
@@ -29,6 +48,10 @@
             this.DefaultMessage();
         }
 
+        /// <summary>
+        /// Prints the starting message of the game. How to play and
+        /// welcome message from the computer.
+        /// </summary>
         public void PrintGameStartMessage()
         {
             this.PrintLogo();
@@ -43,7 +66,7 @@
 
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
             this.currentRow += 2;
-            PrintLines(startMessageParts);
+            this.PrintLines(startMessageParts);
 
             this.currentRow += 2;
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
@@ -51,6 +74,10 @@
             this.DefaultMessage();
         }
 
+        /// <summary>
+        /// Prints a top score table to the console.
+        /// </summary>
+        /// <param name="board">ScoreBoard to be printed</param>
         public void PrintTopScores(ScoreBoard board)
         {
             Console.ForegroundColor = ConsoleRenderer.TopScoresColor;
@@ -60,6 +87,11 @@
             this.DefaultMessage();
         }
 
+        /// <summary>
+        /// Prints a message to the console when player guesses the secret number
+        /// </summary>
+        /// <param name="usedCheats">How many cheats were used.</param>
+        /// <param name="madeGuesses">How many guesses were made.</param>
         public void PrintCongratulationMessage(int usedCheats, int madeGuesses)
         {
             Console.ForegroundColor = ConsoleRenderer.CongratMessageColor;
@@ -76,6 +108,11 @@
             }
         }
 
+        /// <summary>
+        /// Prints the helping number on the console as computer
+        /// message (animated).
+        /// </summary>
+        /// <param name="helpingNumber">Digits of the helping number as array of chars.</param>
         public void PrintHelpingNumber(char[] helpingNumber)
         {
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
@@ -84,11 +121,17 @@
             this.DefaultMessage();
         }
 
+        /// <summary>
+        /// Prints the bulls and cows count to the console
+        /// as computer message (animated).
+        /// </summary>
+        /// <param name="bullsCount">How many bulls</param>
+        /// <param name="cowsCount">How many cows</param>
         public void PrintBullsAndCows(int bullsCount, int cowsCount)
         {
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
-            this.PrintComputerMessage(String.Format("Wrong number! Bulls: {0}, Cows: {1}!", 
-                bullsCount, cowsCount));
+            this.PrintComputerMessage(
+                String.Format("Wrong number! Bulls: {0}, Cows: {1}!", bullsCount, cowsCount));
             this.DefaultMessage();
         }
 
@@ -97,16 +140,23 @@
             // TO DO
         }
 
+        /// <summary>
+        /// Prints on the console a set of lines. Every line is centered.
+        /// </summary>
+        /// <param name="lines">Set of strings to be printed. Every string is a single line.</param>
         public void PrintLines(params string[] lines)
         {
             for (int i = 0; i < lines.Length; i++, this.currentRow++)
             {
-                int x = Console.WindowWidth / 2 - lines[i].Length / 2;
+                int x = (Console.WindowWidth / 2) - (lines[i].Length / 2);
                 Console.SetCursorPosition(x, this.currentRow);
                 Console.WriteLine(lines[i]);
             }
         }
 
+        /// <summary>
+        /// Prints the game logo.
+        /// </summary>
         private void PrintLogo()
         {
             string[] logoParts = new string[]
@@ -122,6 +172,11 @@
             this.PrintLines(logoParts);
         }
 
+        /// <summary>
+        /// Prints a line that is aligned on the ride side of the console.
+        /// Printing is animated (simulates live typing).
+        /// </summary>
+        /// <param name="message">Message as string to be printed.</param>
         private void PrintComputerMessage(string message)
         {
             int startX = Console.WindowWidth - message.Length - 10;
@@ -130,6 +185,10 @@
             this.currentRow += 2;
         }
 
+        /// <summary>
+        /// Prints on the right a default string that asks the player
+        /// to enter his command.
+        /// </summary>
         private void DefaultMessage()
         {
             Console.SetCursorPosition(10, this.currentRow);
