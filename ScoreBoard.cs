@@ -43,7 +43,6 @@
                 throw new ArgumentException("Name too long! Max 25 symbols!");
             }
 
-            this.board = this.board.OrderByDescending(x => x.Score).ToList();
             bool isInTop = this.CheckIfInTop(score);
 
             if (isInTop)
@@ -51,6 +50,12 @@
                 Record newRecord = new Record(name, score);
                 this.board.Add(newRecord);
 
+		if (this.board.Count == this.maxBoardLength + 1)
+                {
+                    this.board = this.board.OrderByDescending(x => x.Score).ToList();
+                    this.board.RemoveAt(this.maxBoardLength);
+                }
+                
                 CheckForNameAndScoreLength(name, score.ToString());
             }
             //else
@@ -87,7 +92,8 @@
         {
             var result = new StringBuilder();
             string scoreBoardTitle = "Scoreboard";
-
+	    this.board = this.board.OrderByDescending(x => x.Score).ToList();
+	    
             // This is the space required to divide the words
             int aditionalSpace = 7;
             int longestLineLength = this.longestName + this.longestScore + aditionalSpace;
