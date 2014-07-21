@@ -52,7 +52,22 @@
         /// <param name="fieldHeight">Console height in symbols</param>
         public ConsoleRenderer(int fieldWidth, int fieldHeight)
         {
-            Console.SetWindowSize(fieldWidth, fieldHeight);
+            int width = fieldWidth;
+            int height = fieldHeight;
+            int maxHeight = Console.LargestWindowHeight;
+            int maxWidth = Console.LargestWindowWidth;
+
+            if (maxWidth < fieldWidth)
+            {
+                width = maxWidth;
+            }
+
+            if (maxHeight < fieldHeight)
+            {
+                height = maxHeight;
+            }
+            
+            Console.SetWindowSize(width, height);
             Console.Title = "Bulls and Cows";
             this.currentRow = 0;
         }
@@ -118,13 +133,13 @@
             string[] message = new string[] 
             { 
                 "CONGRATULATIONS!",
-                String.Format("You guessed" + " the secret number in {0} attempts.", madeGuesses)
+                string.Format("You guessed" + " the secret number in {0} attempts.", madeGuesses)
             };
             this.PrintLines(message);
 
             if (usedCheats > 0)
             {
-                this.PrintLines(String.Format(" But you used {0} cheats!", usedCheats));
+                this.PrintLines(string.Format(" But you used {0} cheats!", usedCheats));
             }
         }
 
@@ -151,7 +166,7 @@
         {
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
             this.PrintComputerMessage(
-                String.Format("Wrong number! Bulls: {0}, Cows: {1}!", bullsCount, cowsCount));
+                string.Format("Wrong number! Bulls: {0}, Cows: {1}!", bullsCount, cowsCount));
             this.DefaultMessage();
         }
 
