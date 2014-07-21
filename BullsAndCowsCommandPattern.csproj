@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Align.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="ConsoleRenderer.cs" />
     <Compile Include="DigitCommand.cs" />

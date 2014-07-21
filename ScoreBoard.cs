@@ -50,7 +50,7 @@
                 Record newRecord = new Record(name, score);
                 this.board.Add(newRecord);
 
-		if (this.board.Count == this.maxBoardLength + 1)
+		        if (this.board.Count == this.maxBoardLength + 1)
                 {
                     this.board = this.board.OrderByDescending(x => x.Score).ToList();
                     this.board.RemoveAt(this.maxBoardLength);
@@ -58,10 +58,6 @@
                 
                 CheckForNameAndScoreLength(name, score.ToString());
             }
-            //else
-            //{
-            //    Console.WriteLine("Sorry! You didn't make it to top {0}.", this.boardLength);
-            //}
         }
 
         public ScoreBoardMemento CreateMemento()
@@ -92,12 +88,18 @@
         {
             var result = new StringBuilder();
             string scoreBoardTitle = "Scoreboard";
-	    this.board = this.board.OrderByDescending(x => x.Score).ToList();
+	        this.board = this.board.OrderByDescending(x => x.Score).ToList();
 	    
             // This is the space required to divide the words
             int aditionalSpace = 7;
             int longestLineLength = this.longestName + this.longestScore + aditionalSpace;
             int sideSymbolsLength = (longestLineLength - scoreBoardTitle.Length) / 2;
+
+            if (this.board.Count == 0)
+            {
+                sideSymbolsLength = aditionalSpace;
+                longestLineLength = aditionalSpace * 2 + scoreBoardTitle.Length;
+            }
 
             result.Append(new string('-', sideSymbolsLength));
             result.Append(scoreBoardTitle);

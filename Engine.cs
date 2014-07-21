@@ -9,7 +9,8 @@
     {
         public const int DEFAULT_NUMBER_LENGTH = 4;
         private const int MaxResult = 10000;
-        private const int CheatPenalty = 2000;
+        private const int CheatPenalty = 2500;
+        private const int FieldPadding = 10;
 
         private static Engine engine = null; //new Engine();
 
@@ -23,7 +24,7 @@
 
         private Engine(NumberGenerator numberGenerator, int numberLength = DEFAULT_NUMBER_LENGTH)
         {
-            this.topScores = new ScoreBoard(5);
+            this.topScores = new ScoreBoard(10);
             try
             {
                 ScoreBoardMemento memento = new ScoreBoardMemento();
@@ -35,7 +36,7 @@
                 File.WriteAllText(@"scores.txt", string.Empty);
             }
 
-            this.consoleRenderer = new ConsoleRenderer(80, 50);
+            this.consoleRenderer = new ConsoleRenderer(80, 50, Engine.FieldPadding);
             this.numberLength = numberLength;
             this.numberGenerator = numberGenerator;
         }
@@ -129,45 +130,45 @@
 
         private void EndGame()
         {
-            consoleRenderer.PrintCongratulationMessage(usedCheats, madeGuesses);
-            this.SaveScore();
+            int score = MaxResult / this.madeGuesses - (this.usedCheats * CheatPenalty);
+            consoleRenderer.PrintCongratulationMessage(usedCheats, madeGuesses, score);
+            this.SaveScore(score);
+            Console.ReadKey();
             this.Start(); 
-
-            // TO DO: Logic after game end(to continue or exit).
         }
 
-        private void SaveScore()
+        private void SaveScore(int score)
         {
-            int score = MaxResult / this.madeGuesses - (this.usedCheats * CheatPenalty);
-            string name = String.Empty;
+            string name = string.Empty;
 
-
-            // Printing to be moved to renderer.
-            this.consoleRenderer.PrintLines("You can add your nickname to top scores!");
-            Console.WriteLine();
-
-            while (name.Length <= 3)
+            if (this.topScores.CheckIfInTop(score))
             {
-                this.consoleRenderer.PrintLines("Enter your nickname: ");
-                name = Console.ReadLine();
-
-                if (name == null || name.Length < 3)
+                this.consoleRenderer.SavingScoreMessage();
+                while (name.Length < 3)
                 {
-                    this.consoleRenderer.PrintErrorMessage("Please enter at least 3 letters!");
-                    continue;
+                    this.consoleRenderer.AskPlayerName();
+                    name = Console.ReadLine();
+
+                    if (name == null || name.Length < 3)
+                    {
+                        continue;
+                    }
                 }
+
+                this.topScores.AddScore(score, name);
+                ScoreBoardMemento memento = topScores.CreateMemento();
+                File.WriteAllText(@"scores.txt", memento.Serialize());
             }
-
-            this.topScores.AddScore(score, name);
-
-            ScoreBoardMemento memento = topScores.CreateMemento();
-            File.WriteAllText(@"scores.txt", memento.Serialize());
+            else
+            {
+                this.consoleRenderer.NotInTopMessage();
+            }
         }
 
         private void Initialize()
         {
             this.numberProcesser = new NumberProccesser(numberLength, numberGenerator);
-            this.consoleRenderer = new ConsoleRenderer(80, 50);
+            this.consoleRenderer = new ConsoleRenderer(80, 50, Engine.FieldPadding);
             this.madeGuesses = 0;
             this.usedCheats = 0;
         }

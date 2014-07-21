@@ -44,13 +44,15 @@
         /// </summary>
         private int currentRow;
 
+        private int padding;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsoleRenderer"/> class.
         /// Sets the Console size and title.
         /// </summary>
         /// <param name="fieldWidth">Console width in symbols</param>
         /// <param name="fieldHeight">Console height in symbols</param>
-        public ConsoleRenderer(int fieldWidth, int fieldHeight)
+        public ConsoleRenderer(int fieldWidth, int fieldHeight, int padding)
         {
             int width = fieldWidth;
             int height = fieldHeight;
@@ -70,6 +72,7 @@
             Console.SetWindowSize(width, height);
             Console.Title = "Bulls and Cows";
             this.currentRow = 0;
+            this.padding = padding;
         }
 
         /// <summary>
@@ -127,13 +130,14 @@
         /// </summary>
         /// <param name="usedCheats">How many cheats were used.</param>
         /// <param name="madeGuesses">How many guesses were made.</param>
-        public void PrintCongratulationMessage(int usedCheats, int madeGuesses)
+        public void PrintCongratulationMessage(int usedCheats, int madeGuesses, int score)
         {
             Console.ForegroundColor = ConsoleRenderer.CongratMessageColor;
             string[] message = new string[] 
             { 
                 "CONGRATULATIONS!",
-                string.Format("You guessed" + " the secret number in {0} attempts.", madeGuesses)
+                string.Format("You guessed the secret number in {0} attempts.", madeGuesses),
+                string.Format("Your score is {0} points", score)
             };
             this.PrintLines(message);
 
@@ -141,7 +145,9 @@
             {
                 this.PrintLines(string.Format(" But you used {0} cheats!", usedCheats));
             }
+            this.currentRow += 2;
         }
+
 
         /// <summary>
         /// Prints the helping number on the console as computer
@@ -173,16 +179,32 @@
         /// <summary>
         /// Prints an instructions for saving players score and name
         /// </summary>
-        public void PrintSavingScore()
+        public void SavingScoreMessage()
         {
-            // TO DO
+            Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
+            this.PrintComputerMessage("You can add your nickname to top scores!(3-20 characters)");
+        }
+
+        public void AskPlayerName()
+        {
+            Console.SetCursorPosition(this.padding, this.currentRow);
+            Console.ResetColor();
+            Console.Write("Enter your name: ");
+            this.currentRow += 2;
+        }
+
+        public void NotInTopMessage()
+        {
+            Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;
+            this.PrintComputerMessage("Sorry, you did not reached the top scores.");
+            this.PrintComputerMessage("Press any key to restart.");
         }
 
         /// <summary>
         /// Prints on the console a set of lines. Every line is centered.
         /// </summary>
         /// <param name="lines">Set of strings to be printed. Every string is a single line.</param>
-        public void PrintLines(params string[] lines)
+        private void PrintLines(params string[] lines)
         {
             for (int i = 0; i < lines.Length; i++, this.currentRow++)
             {
@@ -190,6 +212,19 @@
                 Console.SetCursorPosition(x, this.currentRow);
                 Console.WriteLine(lines[i]);
             }
+        }
+
+        /// <summary>
+        /// Prints a line that is aligned on the ride side of the console.
+        /// Printing is animated (simulates live typing).
+        /// </summary>
+        /// <param name="message">Message as string to be printed.</param>
+        private void PrintComputerMessage(string message)
+        {
+            int startX = Console.WindowWidth - message.Length - this.padding;
+            this.animator = new TextAnimator(startX, this.currentRow, message);
+            this.animator.Type(50, true);
+            this.currentRow += 2;
         }
 
         /// <summary>
@@ -211,25 +246,12 @@
         }
 
         /// <summary>
-        /// Prints a line that is aligned on the ride side of the console.
-        /// Printing is animated (simulates live typing).
-        /// </summary>
-        /// <param name="message">Message as string to be printed.</param>
-        private void PrintComputerMessage(string message)
-        {
-            int startX = Console.WindowWidth - message.Length - 10;
-            this.animator = new TextAnimator(startX, this.currentRow, message);
-            this.animator.Type(50, true);
-            this.currentRow += 2;
-        }
-
-        /// <summary>
         /// Prints on the right a default string that asks the player
         /// to enter his command.
         /// </summary>
         private void DefaultMessage()
         {
-            Console.SetCursorPosition(10, this.currentRow);
+            Console.SetCursorPosition(this.padding, this.currentRow);
             Console.ResetColor();
             Console.Write("Enter your guess or command: ");
             this.currentRow += 2;

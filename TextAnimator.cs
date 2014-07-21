@@ -9,7 +9,6 @@
         private int messageIndex;
         private string message;
         private Timer timer;
-        private bool isAnimating;
 
         public TextAnimator(int x, int y, string message)
         {
@@ -17,18 +16,12 @@
             this.message = message;
             this.startX = x;
             this.startY = y;
-            this.isAnimating = false;
         }
 
         public string Message
         {
             get;
             set;
-        }
-
-        public bool IsAnimating
-        {
-            get { return this.isAnimating; }
         }
 
         public void Type(int interval)
