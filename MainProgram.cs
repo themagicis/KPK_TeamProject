@@ -1,4 +1,8 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="MainProgram.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
     using BullsAndCowsCommandPattern.Exceptions;

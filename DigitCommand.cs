@@ -1,4 +1,8 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="DigitCommand.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
 
@@ -41,7 +45,7 @@
             {
                 if (value.Length != this.numberLength)
                 {
-                    string message = String.Format("Number length must be {0} digits", this.numberLength);
+                    string message = string.Format("Number length must be {0} digits", this.numberLength);
                     throw new ArgumentOutOfRangeException(message);
                 }
 

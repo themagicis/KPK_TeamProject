@@ -1,15 +1,46 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="NumberProccesser.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3 Team. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
 
+    /// <summary>
+    /// Class that holds a secret number and calculates if it is guessed
+    /// </summary>
     public class NumberProccesser
     {
-        public string secretNumber;
+        /// <summary>
+        /// The secret number that should be guessed
+        /// </summary>
+        private string secretNumber;
+
+        /// <summary>
+        /// Generator of a number
+        /// </summary>
         private NumberGenerator numberGenerator;
+
+        /// <summary>
+        /// Holds the positions of the bulls
+        /// </summary>
         private bool[] bulls;
+
+        /// <summary>
+        /// Holds the revealed digits of the secret number
+        /// </summary>
         private char[] helpingNumber;
+
+        /// <summary>
+        /// The count of the revealed digits
+        /// </summary>
         private int revealedDigits;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NumberProccesser"/> class.
+        /// </summary>
+        /// <param name="numberLength">Length of the secret number</param>
+        /// <param name="numberGenerator">Number generator for the secret number</param>
         public NumberProccesser(int numberLength, NumberGenerator numberGenerator)
         {
             this.bulls = new bool[numberLength];
@@ -20,12 +51,16 @@
                 this.helpingNumber[i] = 'X';
             }
 
-            //this.randomGenerator = new Random();
             this.numberGenerator = numberGenerator;
             this.revealedDigits = 0;
             this.GenerateSecretNumber(numberLength);
         }
 
+        /// <summary>
+        /// Compares a number with the secret number and checks if it is guessed.
+        /// </summary>
+        /// <param name="number">Guessing number</param>
+        /// <returns>True if the secret number is guessed</returns>
         public bool CheckIsGuessed(string number)
         {
             bool isGuessed = number == this.secretNumber;
@@ -91,13 +126,14 @@
         /// <summary>
         /// Reveals digit from the secret number.
         /// </summary>
+        /// <returns>Char array with secret number digits</returns>
         public char[] RevealDigit()
         {
             bool flag = false;
 
             if (this.revealedDigits >= this.secretNumber.Length)
             {
-                return helpingNumber;
+                return this.helpingNumber;
             }
             else
             {
@@ -114,7 +150,7 @@
                 }
             }
             
-            return helpingNumber;
+            return this.helpingNumber;
         }
 
         /// <summary>
@@ -123,7 +159,7 @@
         /// <param name="numberLength">The number of the digits in the number</param>
         private void GenerateSecretNumber(int numberLength)
         {
-            this.secretNumber = numberGenerator.GenerateNumber(numberLength); 
+            this.secretNumber = this.numberGenerator.GenerateNumber(numberLength); 
         }
     }
 }

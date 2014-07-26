@@ -1,4 +1,8 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="Command.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3 Team. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
 

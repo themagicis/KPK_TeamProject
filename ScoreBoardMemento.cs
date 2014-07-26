@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿// <copyright file="ScoreBoardMemento.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3 Team. All rights reserved.
+// </copyright>
+// <author></author>
 namespace BullsAndCowsCommandPattern
 {
+    using System;
+    using System.Linq;
+    using System.Text;
+
     public class ScoreBoardMemento
     {
         private Record[] records;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScoreBoardMemento"/> class.
+        /// </summary>
+        /// <param name="records"></param>
         public ScoreBoardMemento(Record[] records)
         {
             this.records = records;

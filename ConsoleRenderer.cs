@@ -1,4 +1,8 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="ConsoleRenderer.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
     using System.Linq;
@@ -44,6 +48,9 @@
         /// </summary>
         private int currentRow;
 
+        /// <summary>
+        /// Determine the gap on each side of the console in symbols
+        /// </summary>
         private int padding;
 
         /// <summary>
@@ -52,6 +59,7 @@
         /// </summary>
         /// <param name="fieldWidth">Console width in symbols</param>
         /// <param name="fieldHeight">Console height in symbols</param>
+        /// <param name="padding">How many empty symbols on each side</param>
         public ConsoleRenderer(int fieldWidth, int fieldHeight, int padding)
         {
             int width = fieldWidth;
@@ -130,6 +138,7 @@
         /// </summary>
         /// <param name="usedCheats">How many cheats were used.</param>
         /// <param name="madeGuesses">How many guesses were made.</param>
+        /// <param name="score">The achieved score.</param>
         public void PrintCongratulationMessage(int usedCheats, int madeGuesses, int score)
         {
             Console.ForegroundColor = ConsoleRenderer.CongratMessageColor;
@@ -139,15 +148,16 @@
                 string.Format("You guessed the secret number in {0} attempts.", madeGuesses),
                 string.Format("Your score is {0} points", score)
             };
+
             this.PrintLines(message);
 
             if (usedCheats > 0)
             {
                 this.PrintLines(string.Format(" But you used {0} cheats!", usedCheats));
             }
+
             this.currentRow += 2;
         }
-
 
         /// <summary>
         /// Prints the helping number on the console as computer
@@ -185,6 +195,9 @@
             this.PrintComputerMessage("You can add your nickname to top scores!(3-20 characters)");
         }
 
+        /// <summary>
+        /// Prints on the console message to the user and asks him for his name.
+        /// </summary>
         public void AskPlayerName()
         {
             Console.SetCursorPosition(this.padding, this.currentRow);
@@ -193,6 +206,10 @@
             this.currentRow += 2;
         }
 
+        /// <summary>
+        /// Prints on the console message to the user and tells him that
+        /// he is not in the top scores.
+        /// </summary>
         public void NotInTopMessage()
         {
             Console.ForegroundColor = ConsoleRenderer.ComputerMessageColor;

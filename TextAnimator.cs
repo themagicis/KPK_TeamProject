@@ -1,7 +1,12 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="TextAnimator.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3 Team. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
     using System.Timers;
+
     public class TextAnimator
     {
         private int startY;
@@ -10,6 +15,12 @@
         private string message;
         private Timer timer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextAnimator"/> class.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="message"></param>
         public TextAnimator(int x, int y, string message)
         {
             this.messageIndex = 0;

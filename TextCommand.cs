@@ -1,4 +1,8 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="TextCommand.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3 Team. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
     using BullsAndCowsCommandPattern.Exceptions;
@@ -8,8 +12,15 @@
     /// </summary>
     public class TextCommand : Command
     {
+        /// <summary>
+        /// Holds current command for execution
+        /// </summary>
         private string command;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextCommand"/> class.
+        /// </summary>
+        /// <param name="engine">Engine that would be executed</param>
         public TextCommand(Engine engine) : base(engine)
         {
         }

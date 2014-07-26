@@ -1,8 +1,12 @@
-﻿namespace BullsAndCowsCommandPattern
+﻿// <copyright file="ScoreBoard.cs" company="Bulls-and-Cows-3">
+//     Bulls-and-Cows-3 Team. All rights reserved.
+// </copyright>
+// <author></author>
+namespace BullsAndCowsCommandPattern
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     public class ScoreBoard
@@ -13,6 +17,10 @@
         private int longestName;
         private int longestScore;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScoreBoard"/> class.
+        /// </summary>
+        /// <param name="boardLength"></param>
         public ScoreBoard(int boardLength) 
         {
             this.BoardLength = boardLength;
@@ -39,7 +47,8 @@
 
         public void AddScore(int score, string name)
         {
-            if(name.Length > 25){
+            if (name.Length > 25)
+            {
                 throw new ArgumentException("Name too long! Max 25 symbols!");
             }
 
@@ -50,13 +59,13 @@
                 Record newRecord = new Record(name, score);
                 this.board.Add(newRecord);
 
-		        if (this.board.Count == this.maxBoardLength + 1)
+                if (this.board.Count == this.maxBoardLength + 1)
                 {
                     this.board = this.board.OrderByDescending(x => x.Score).ToList();
                     this.board.RemoveAt(this.maxBoardLength);
                 }
                 
-                CheckForNameAndScoreLength(name, score.ToString());
+                this.CheckForNameAndScoreLength(name, score.ToString());
             }
         }
 
@@ -70,9 +79,9 @@
             List<Record> records = new List<Record>(memento.Records);
             this.board = records.OrderByDescending(x => x.Score).ToList();
 
-            foreach (var record in board)
+            foreach (var record in this.board)
             {
-                CheckForNameAndScoreLength(record.Name, record.Score.ToString());
+                this.CheckForNameAndScoreLength(record.Name, record.Score.ToString());
             }
         }
 
@@ -88,8 +97,8 @@
         {
             var result = new StringBuilder();
             string scoreBoardTitle = "Scoreboard";
-	        this.board = this.board.OrderByDescending(x => x.Score).ToList();
-	    
+            this.board = this.board.OrderByDescending(x => x.Score).ToList();
+
             // This is the space required to divide the words
             int aditionalSpace = 7;
             int longestLineLength = this.longestName + this.longestScore + aditionalSpace;
@@ -98,7 +107,7 @@
             if (this.board.Count == 0)
             {
                 sideSymbolsLength = aditionalSpace;
-                longestLineLength = aditionalSpace * 2 + scoreBoardTitle.Length;
+                longestLineLength = (aditionalSpace * 2) + scoreBoardTitle.Length;
             }
 
             result.Append(new string('-', sideSymbolsLength));
@@ -109,7 +118,7 @@
             for (int i = 0; i < this.board.Count; i++)
             {
                 Record currRec = this.board[i];
-                result.AppendLine(GenerateRecordLine(i + 1, currRec.Name, currRec.Score));
+                result.AppendLine(this.GenerateRecordLine(i + 1, currRec.Name, currRec.Score));
             }
 
             result.AppendLine(new string('-', longestLineLength));
@@ -124,7 +133,7 @@
             string currName = name;
             string currScore = score.ToString();
 
-            if (currName.Length <  this.longestName)
+            if (currName.Length < this.longestName)
             {
                 sb.Append(new string(' ', this.longestName - currName.Length));
             }
@@ -132,9 +141,9 @@
             sb.Append(" : ");
 
             if (currScore.Length < this.longestScore)
-	        {
+            {
                 sb.Append(new string(' ', this.longestScore - currScore.Length));
-	        }
+            }
 
             sb.Append(currScore);
             return sb.ToString();
