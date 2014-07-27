@@ -49,7 +49,18 @@ namespace BullsAndCows
                     throw new ArgumentOutOfRangeException(message);
                 }
 
-                this.numberCommand = value;
+                int parsedCommand;
+
+                if (int.TryParse(value, out parsedCommand))
+                {
+                    this.numberCommand = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid number!");
+                }
+                
+
             }
         }
 
