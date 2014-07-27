@@ -57,9 +57,9 @@
     <Compile Include="TestScoreBoard.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BullsAndCowsCommandPattern.csproj">
+    <ProjectReference Include="..\BullsAndCows.csproj">
       <Project>{bf13d751-5554-4ffb-9444-1e7e4477332f}</Project>
-      <Name>BullsAndCowsCommandPattern</Name>
+      <Name>BullsAndCows</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -1,4 +1,4 @@
-﻿namespace BullsAndCowsCommandPattern.Exceptions
+﻿namespace BullsAndCows.Exceptions
 {
     using System;
 

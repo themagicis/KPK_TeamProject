@@ -2,10 +2,10 @@
 //     Bulls-and-Cows-3. All rights reserved.
 // </copyright>
 // <author></author>
-namespace BullsAndCowsCommandPattern
+namespace BullsAndCows
 {
     using System;
-    using BullsAndCowsCommandPattern.Exceptions;
+    using BullsAndCows.Exceptions;
 
     /// <summary>
     /// Starting point of the program

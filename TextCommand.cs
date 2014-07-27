@@ -2,10 +2,10 @@
 //     Bulls-and-Cows-3 Team. All rights reserved.
 // </copyright>
 // <author></author>
-namespace BullsAndCowsCommandPattern
+namespace BullsAndCows
 {
     using System;
-    using BullsAndCowsCommandPattern.Exceptions;
+    using BullsAndCows.Exceptions;
 
     /// <summary>
     /// Class that defines and executes the text commands in the game.

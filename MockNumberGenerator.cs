@@ -2,7 +2,7 @@
 //     Bulls-and-Cows-3 Team. All rights reserved.
 // </copyright>
 // <author></author>
-namespace BullsAndCowsCommandPattern
+namespace BullsAndCows
 {
     /// <summary>
     /// Mocking class for testing purposes. Mocks Number generator
