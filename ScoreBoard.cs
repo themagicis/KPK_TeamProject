@@ -11,27 +11,44 @@ namespace BullsAndCows
 
     public class ScoreBoard
     {
+        /// <summary>
+        /// Hold the defaullt scoreboard length
+        /// </summary>
         private int maxBoardLength = 5;
+
+        /// <summary>
+        /// Containes scoreboard data
+        /// </summary>
         private List<Record> board;
 
+        /// <summary>
+        /// Longest plater name. Help for formating in ToString()
+        /// </summary>
         private int longestName;
+
+        /// <summary>
+        /// Longest score as number of digits. Help for formating in ToString()
+        /// </summary>
         private int longestScore;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScoreBoard"/> class.
         /// </summary>
         /// <param name="boardLength"></param>
-        public ScoreBoard(int boardLength) 
+        public ScoreBoard(int boardLength)
         {
             this.BoardLength = boardLength;
             this.board = new List<Record>(boardLength);
         }
 
+        /// <summary>
+        /// Gets the maximun board length
+        /// </summary>
         public int BoardLength
         {
-            get 
+            get
             {
-                return this.maxBoardLength; 
+                return this.maxBoardLength;
             }
 
             private set
@@ -45,6 +62,10 @@ namespace BullsAndCows
             }
         }
 
+        /// <summary>
+        /// Gets the top scores.
+        /// </summary>
+        /// <returns>The top scores as array of Records</returns>
         public Record[] GetTopScores()
         {
             Record[] result = new Record[this.board.Count];
@@ -53,6 +74,11 @@ namespace BullsAndCows
             return result;
         }
 
+        /// <summary>
+        /// Adds a score to the top score list if it is high enough .
+        /// </summary>
+        /// <param name="score">Score of the player</param>
+        /// <param name="name">Player name</param>
         public void AddScore(int score, string name)
         {
             if (name.Length > 25)
@@ -72,16 +98,24 @@ namespace BullsAndCows
                 {
                     this.board.RemoveAt(this.maxBoardLength);
                 }
-                
+
                 this.CheckForNameAndScoreLength(name, score.ToString());
             }
         }
 
+        /// <summary>
+        /// Creates a ScoreBoardMemento from the current top scores
+        /// </summary>
+        /// <returns>New ScoreBoardMemento</returns>
         public ScoreBoardMemento CreateMemento()
         {
             return new ScoreBoardMemento(this.board.ToArray());
         }
 
+        /// <summary>
+        /// Sets a previous memento state of the scoreboard
+        /// </summary>
+        /// <param name="memento">ScoreBoardMemento with saved top scores as array of records</param>
         public void SetMemento(ScoreBoardMemento memento)
         {
             List<Record> records = new List<Record>(memento.Records);
@@ -93,14 +127,23 @@ namespace BullsAndCows
             }
         }
 
+        /// <summary>
+        /// Checks if a score is large enouph
+        /// </summary>
+        /// <param name="score">Score to be checked</param>
+        /// <returns>If the score manages to get in the top scores or not</returns>
         public bool CheckIfInTop(int score)
         {
             var isInTop = this.board.Count < this.maxBoardLength ||
                 this.board[this.maxBoardLength - 1].Score < score;
-            
+
             return isInTop;
         }
 
+        /// <summary>
+        /// Creates a multiline string with the top score list
+        /// </summary>
+        /// <returns>Top scores as string</returns>
         public override string ToString()
         {
             var result = new StringBuilder();
@@ -133,6 +176,13 @@ namespace BullsAndCows
             return result.ToString();
         }
 
+        /// <summary>
+        /// Generates a formatted line of top score for the ToString()
+        /// </summary>
+        /// <param name="place">Plase of the player</param>
+        /// <param name="name">Name of the player</param>
+        /// <param name="score">Score of the plater</param>
+        /// <returns>String with the top score iinfornation</returns>
         private string GenerateRecordLine(int place, string name, int score)
         {
             var sb = new StringBuilder();
@@ -157,6 +207,12 @@ namespace BullsAndCows
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Checks if current name and score is longer than the longest in the scoreboard
+        /// and sets them
+        /// </summary>
+        /// <param name="name">Name to check</param>
+        /// <param name="score">Score to check</param>
         private void CheckForNameAndScoreLength(string name, string score)
         {
             if (name.Length > this.longestName)
