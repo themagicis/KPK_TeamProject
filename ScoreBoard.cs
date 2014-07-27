@@ -45,6 +45,14 @@ namespace BullsAndCowsCommandPattern
             }
         }
 
+        public Record[] GetTopScores()
+        {
+            Record[] result = new Record[this.board.Count];
+            Array.Copy(this.board.ToArray(), result, board.Count);
+
+            return result;
+        }
+
         public void AddScore(int score, string name)
         {
             if (name.Length > 25)
@@ -58,10 +66,10 @@ namespace BullsAndCowsCommandPattern
             {
                 Record newRecord = new Record(name, score);
                 this.board.Add(newRecord);
+                this.board = this.board.OrderByDescending(x => x.Score).ToList();
 
                 if (this.board.Count == this.maxBoardLength + 1)
                 {
-                    this.board = this.board.OrderByDescending(x => x.Score).ToList();
                     this.board.RemoveAt(this.maxBoardLength);
                 }
                 

@@ -50,14 +50,39 @@ namespace BullsAndCows.Tests
             bool invalidDigit = false;
             for (int i = 0; i < 3; i++)
             {
-                if (generatedNumber[i] < '1' || generatedNumber[i] > '9')
+                if (i == 0 && generatedNumber[0] == 0)
+                {
+                    invalidDigit = true;
+                    break;
+                }
+
+                if (generatedNumber[i] < '0' || generatedNumber[i] > '9')
                 {
                     invalidDigit = true;
                     break;
                 }
             }
 
-            Assert.AreEqual(invalidDigit, false, "Digits must be between 1 and 9");
+            Assert.AreEqual(invalidDigit, false, "Digits must be between 0 and 9");
+        }
+
+        [TestMethod]
+        public void TestZeroInStart()
+        {
+            RandomNumberGenerator generator = new RandomNumberGenerator();
+
+            string generatedNumber = generator.GenerateNumber(4);
+            bool invalidDigit = false;
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == 0 && generatedNumber[0] == 0)
+                {
+                    invalidDigit = true;
+                    break;
+                }
+            }
+
+            Assert.AreEqual(invalidDigit, false, "Zero not alloed in start of number");
         }
     }
 }

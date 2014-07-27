@@ -38,6 +38,11 @@ namespace BullsAndCowsCommandPattern
             {
                 int randomNumber = this.randomGenerator.Next(0, 10);
 
+                if (insertedNumbers == 0 && randomNumber == 0)
+                {
+                    continue;
+                } 
+
                 if (!this.CheckIfDigitIsUsed(secretNumberDigits, randomNumber))
                 {
                     secretNumberDigits.Add(randomNumber.ToString()[0]);

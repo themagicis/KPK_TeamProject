@@ -53,6 +53,8 @@
     <Compile Include="TestNumberProcesser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestRandomNumberGenerator.cs" />
+    <Compile Include="TestRecord.cs" />
+    <Compile Include="TestScoreBoard.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BullsAndCowsCommandPattern.csproj">
