@@ -55,6 +55,8 @@
     <Compile Include="TestRandomNumberGenerator.cs" />
     <Compile Include="TestRecord.cs" />
     <Compile Include="TestScoreBoard.cs" />
+    <Compile Include="TestEngine.cs" />
+    <Compile Include="TestDigitCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BullsAndCows.csproj">

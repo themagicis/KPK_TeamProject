@@ -59,8 +59,6 @@ namespace BullsAndCows
                 {
                     throw new ArgumentException("Invalid number!");
                 }
-                
-
             }
         }
 
