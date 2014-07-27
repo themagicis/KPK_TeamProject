@@ -7,6 +7,10 @@ namespace BullsAndCowsCommandPattern
     using System;
     using System.Timers;
 
+    /// <summary>
+    /// Class that animates printing line on the console. Can do it without breaking
+    /// the application execution flow or to stop it
+    /// </summary>
     public class TextAnimator
     {
         private int startY;
@@ -18,9 +22,9 @@ namespace BullsAndCowsCommandPattern
         /// <summary>
         /// Initializes a new instance of the <see cref="TextAnimator"/> class.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="message"></param>
+        /// <param name="x">Starting x</param>
+        /// <param name="y">Starting y</param>
+        /// <param name="message">Message for printing</param>
         public TextAnimator(int x, int y, string message)
         {
             this.messageIndex = 0;
@@ -29,12 +33,19 @@ namespace BullsAndCowsCommandPattern
             this.startY = y;
         }
 
+        /// <summary>
+        /// Gets or sets the message
+        /// </summary>
         public string Message
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Types the message on the console. Does not stops the execution flow
+        /// </summary>
+        /// <param name="interval">Interval between each printing of a letter</param>
         public void Type(int interval)
         {
             this.timer = new Timer(interval);
@@ -42,6 +53,11 @@ namespace BullsAndCowsCommandPattern
             this.timer.Start();
         }
 
+        /// <summary>
+        /// Types the message on the console
+        /// </summary>
+        /// <param name="interval">Interval between each printing of a letter</param>
+        /// <param name="stopExecution">To stop or not the execution flow</param>
         public void Type(int interval, bool stopExecution)
         {
             if (!stopExecution)
@@ -57,6 +73,11 @@ namespace BullsAndCowsCommandPattern
             }
         }
 
+        /// <summary>
+        /// Prints char on the console. Callback from Timer
+        /// </summary>
+        /// <param name="sender">Sender from the Timer</param>
+        /// <param name="e">Event args from the Timer</param>
         private void printChar(object sender, ElapsedEventArgs e)
         {
             if (messageIndex >= this.message.Length)
