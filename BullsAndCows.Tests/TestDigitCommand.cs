@@ -34,12 +34,12 @@ namespace BullsAndCows.Tests
         [ExpectedException(typeof(ArgumentException), "Invalid number!")]
         public void TestDigitCommandWithInvalidNumber()
         {
-            var digitCommand = new DigitCommand(Engine.GetInstance(), 11);
+            var digitCommand = new DigitCommand(Engine.GetInstance(), 4);
             digitCommand.CommandValue = "12s4";
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "Number length must be 5 digits")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Number length must be 5 digits")]
         public void TestDigitCommandWithInvalidCountOfDigits()
         {
             var digitCommand = new DigitCommand(Engine.GetInstance(), 5);
