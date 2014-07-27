@@ -16,22 +16,68 @@ namespace BullsAndCows
     /// </summary>
     public class Engine
     {
+        /// <summary>
+        /// Defaul length of the secret number
+        /// </summary>
         private const int DefaultNumberLength = 4;
+
+        /// <summary>
+        /// The biggest possible result if pleye guesses the secret number from 1 try
+        /// </summary>
         private const int MaxResult = 10000;
+
+        /// <summary>
+        /// Penalty for using cheats
+        /// </summary>
         private const int CheatPenalty = 2500;
+
+        /// <summary>
+        /// Padding for the console format
+        /// </summary>
         private const int FieldPadding = 10;
 
+        /// <summary>
+        /// Instanse of the Engine
+        /// </summary>
         private static Engine engine = null;
+
+        /// <summary>
+        /// ScoreBoard instance with the top scores in it
+        /// </summary>
         private ScoreBoard topScores;
+
+        /// <summary>
+        /// Object that renders the data and the messages on the console
+        /// </summary>
         private ConsoleRenderer consoleRenderer;
+
+        /// <summary>
+        /// Object holdin the secret number and calculating the bulls and the cows
+        /// </summary>
         private NumberProccesser numberProcesser;
+
+        /// <summary>
+        /// Generator of random numbers
+        /// </summary>
         private NumberGenerator numberGenerator;
+
+        /// <summary>
+        /// Made guesses of the player for the current game
+        /// </summary>
         private int madeGuesses;
+
+        /// <summary>
+        /// Used cheats from the player
+        /// </summary>
         private int usedCheats;
+
+        /// <summary>
+        /// Lenght of the secret number
+        /// </summary>
         private int numberLength;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Engine"/> class.
+        /// Initializes a new instance of the <see cref="Engine"/> class
         /// </summary>
         /// <param name="numberGenerator">Number generator for creating screen number</param>
         /// <param name="numberLength">The count of the digits in the secret number</param>
